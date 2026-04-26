@@ -6,7 +6,6 @@ A .NET 9 ASP.NET Core web application deployed on AWS with a highly available ar
 
 ## Architecture
 
-<!-- Save your draw.io diagram as screenshots/architecture-diagram.png -->
 ![Architecture Diagram](screenshots/architecture-diagram.png)
 
 ```
@@ -52,63 +51,29 @@ IAM Role (least-privilege)
 
 ---
 
-## Infrastructure Screenshots
-
-### Load Balancer — Active
-![ALB Active](screenshots/alb-active.png)
-
-### Target Group — Both Instances Healthy
-![Healthy Instances](screenshots/target-group-healthy.png)
-
-### Auto Scaling Group — 2 Instances InService
-![ASG Instances](screenshots/asg-instances.png)
-
-### IAM Role — Least Privilege Policies
-![IAM Role](screenshots/iam-role.png)
-
-### S3 Bucket — App Artifact
-![S3 Bucket](screenshots/s3-bucket.png)
-
-### App Running on EC2 — systemctl status
-![Systemctl Running](screenshots/systemctl-running.png)
-
----
-
-## Clip Walkthroughs
+## Walkthroughs
 
 ### 1 — Self Healing in Action
-Terminating an instance and watching ASG automatically detect the failure and launch a replacement without any manual intervention.
 
-<!-- 
-  Drag and drop self-healing.mp4 into this README while editing on GitHub.com
-  GitHub will generate an embed link — paste it here replacing this comment
--->
+Terminating an instance manually to simulate failure. The Auto Scaling Group detects the unhealthy instance, terminates it, and automatically launches a replacement — no manual intervention required. The new instance pulls the app from S3, installs the runtime, and registers itself to the Target Group on its own.
 
-https://github.com/Uttkarshtiwari55/texttospeech-aws/assets/REPLACE_WITH_YOUR_ASSET_ID/self-healing.mp4
+![Self Healing](videos/self-healing.gif)
 
 ---
 
 ### 2 — Architecture Walkthrough
-Clicking through each AWS service — ALB, Target Group, Auto Scaling Group, IAM Role — showing how they connect together.
 
-<!-- 
-  Drag and drop architecture-walkthrough.mp4 into this README while editing on GitHub.com
-  GitHub will generate an embed link — paste it here replacing this comment
--->
+Clicking through each AWS service in the console — Application Load Balancer, Target Group, Auto Scaling Group, and IAM Role — showing how they connect together to form the full infrastructure.
 
-https://github.com/Uttkarshtiwari55/texttospeech-aws/assets/REPLACE_WITH_YOUR_ASSET_ID/architecture-walkthrough.mp4
+![Architecture Walkthrough](videos/architecture-walkthrough.gif)
 
 ---
 
 ### 3 — User Data Script Explained
-Walkthrough of the EC2 User Data script that automatically installs the .NET 9 runtime, pulls the app from S3, and starts it as a systemd service on every instance launch.
 
-<!-- 
-  Drag and drop userdata-explained.mp4 into this README while editing on GitHub.com
-  GitHub will generate an embed link — paste it here replacing this comment
--->
+Walkthrough of the EC2 User Data script that runs automatically on every instance launch. It installs the ASP.NET Core 9 runtime, pulls the published app zip from S3, extracts it, and registers it as a systemd service so the app starts automatically and restarts on failure.
 
-https://github.com/Uttkarshtiwari55/texttospeech-aws/assets/REPLACE_WITH_YOUR_ASSET_ID/userdata-explained.mp4
+![User Data Explained](videos/userdata-explained.gif)
 
 ---
 
@@ -166,16 +131,10 @@ IAM roles follow AWS security best practices. Credentials are temporary, automat
 |   |-- userdata.sh
 |-- screenshots/
 |   |-- architecture-diagram.png
-|   |-- alb-active.png
-|   |-- target-group-healthy.png
-|   |-- asg-instances.png
-|   |-- iam-role.png
-|   |-- s3-bucket.png
-|   |-- systemctl-running.png
 |-- videos/
-    |-- self-healing.mp4
-    |-- architecture-walkthrough.mp4
-    |-- userdata-explained.mp4
+    |-- self-healing.gif
+    |-- architecture-walkthrough.gif
+    |-- userdata-explained.gif
 ```
 
 ---
